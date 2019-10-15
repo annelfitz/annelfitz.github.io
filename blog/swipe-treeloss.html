@@ -6,7 +6,7 @@
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <title>Swipe Widget</title>
+    <title>Swipe Widget - Tree Loss</title>
     <style>
       html,
       body,
@@ -25,11 +25,19 @@
     <script src="https://js.arcgis.com/4.13/"></script>
 
     <script>
-      require(["esri/Map", "esri/views/MapView", "esri/layers/ImageryLayer", "esri/widgets/LayerList","esri/widgets/Swipe"], function(Map, MapView, ImageryLayer, LayerList, Swipe) {
+      require([
+        "esri/Map", 
+        "esri/views/MapView", 
+        "esri/layers/ImageryLayer", 
+        "esri/widgets/LayerList",
+        "esri/widgets/Swipe"], 
+      function(Map, MapView, ImageryLayer, LayerList, Swipe) {
+        // create map with satellite basemap
         var map = new Map({
           basemap: "satellite"
         });
         
+        // create tree loss imagery layer from portal
         var treeLoss = new ImageryLayer({
           portalItem: {
             id: "bd28dfbb38fe49858419e4cf3d44e97b"
@@ -37,6 +45,7 @@
         });
         map.add(treeLoss);
         
+        // set up the view
         var view = new MapView({
           container: "viewDiv",
           map: map,
@@ -44,18 +53,15 @@
           center: [-120.5702, 50.9149] // longitude, latitude
         });
         
-        var layerList = new LayerList({
-          view: view
-        });
-        view.ui.add(layerList, "top-right");
+        // create swipe widget and add it to the view
         var swipe = new Swipe({
           container: document.createElement("div"),
           trailingLayers: [treeLoss],
-          position: 10,
+          position: 30,
           view: view
         });
-
         view.ui.add(swipe.container, "manual");
+        
       });
     </script>
   </head>
