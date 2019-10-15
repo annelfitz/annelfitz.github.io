@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Swipe Widget</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.13/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.13/"></script>
+
+    <script>
+      require(["esri/Map", "esri/views/MapView", "esri/layers/ImageryLayer", "esri/widgets/LayerList","esri/widgets/Swipe"], function(Map, MapView, ImageryLayer, LayerList, Swipe) {
+        var map = new Map({
+          basemap: "satellite"
+        });
+        
+        var treeLoss = new ImageryLayer({
+          portalItem: {
+            id: "bd28dfbb38fe49858419e4cf3d44e97b"
+          }
+        });
+        map.add(treeLoss);
+        
+        var view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 14,
+          center: [-120.5702, 50.9149] // longitude, latitude
+        });
+        
+        var layerList = new LayerList({
+          view: view
+        });
+        view.ui.add(layerList, "top-right");
+        var swipe = new Swipe({
+          container: document.createElement("div"),
+          trailingLayers: [treeLoss],
+          position: 10,
+          view: view
+        });
+
+        view.ui.add(swipe.container, "manual");
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
