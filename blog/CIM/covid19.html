@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>MapView</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.16/esri/css/main.css" />
+    <style type="text/css" media="screen">
+      html,
+      body,
+      #viewDiv {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #topbar {
+        background: #fff;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 10px;
+        align-items: center;
+        display: flex;
+        flex-flow: row nowrap;
+      }
+
+      .action-button {
+        width: 120px;
+        margin-right: 5px;
+        font-size: 16px;
+        background-color: transparent;
+        border: 1px solid #d3d3d3;
+        color: #6e6e6e;
+        height: 32px;
+        text-align: center;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        font-family: Arial;
+      }
+
+      .action-button:hover,
+      .action-button:focus {
+        background: #0079c1;
+        color: #e4e4e4;
+      }
+
+      .active {
+        background: #0079c1;
+        color: white;
+      }
+    </style>
+
+    <script src="https://js.arcgis.com/4.16/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/Basemap",
+        "esri/layers/FeatureLayer",
+        "esri/views/MapView"
+      ], (Map, Basemap, FeatureLayer, MapView) =>
+        (async () => {
+          // create map and view
+          map = new Map({
+            basemap: "gray-vector"
+          });
+          view = new MapView({
+            container: "viewDiv",
+            map: map,
+            zoom: 4,
+            center: [-100, 40]
+          });
+          // covid-19 data
+          const data = new FeatureLayer({
+            url: "https://services9.arcgis.com/6Hv9AANartyT7fJW/arcgis/rest/services/JHU_last14/FeatureServer/0",
+            renderer: {
+              type: "simple",
+              symbol: {
+                type: "simple-fill",
+                color: [0, 0, 0, 0],
+                outline: {
+                  color: [128, 128, 128, 0.5],
+                  width: "0.5px"
+                }
+              }
+            }
+          });
+          // population data per county
+          const pop_data = new FeatureLayer({
+            url:
+              "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/County_Educational_Attainment/FeatureServer/0"
+          });
+          // get features from covid-19 data
+          const { features } = await data.queryFeatures({
+            where: "1=1",
+            maxAllowableOffset: 10000,
+            returnGeometry: true,
+            returnCentroid: true,
+            outFields: ["*"],
+            outSpatialReference: view.spatialReference
+          });
+          // get population data from pop_data layer
+          const { features: pops } = await pop_data.queryFeatures({
+            where: "OBJECTID < 2000",
+            maxAllowableOffset: 10000,
+            outFields: ["FIPS", "POPULATION"],
+            outSpatialReference: view.spatialReference
+          });
+          const { features: popsOver2k } = await pop_data.queryFeatures({
+            where: "OBJECTID >= 2000",
+            maxAllowableOffset: 10000,
+            outFields: ["FIPS", "POPULATION"],
+            outSpatialReference: view.spatialReference
+          });
+          let populationDict = {};
+          for (const feature of pops) {
+            populationDict[feature.attributes["FIPS"]] = feature.attributes["POPULATION"];
+          }
+
+          for (const feature of popsOver2k) {
+            populationDict[feature.attributes["FIPS"]] = feature.attributes["POPULATION"];
+          }
+
+          let totalCases = [],
+            perThousand = [];
+          for (const feature of features) {
+            const numbers = Array.from(
+              {
+                // The service shows the last 14 days
+                length: 14
+              },
+              (v, i) => feature.attributes["Day_" + (i + 1)]
+            );
+            const aggregated = numbers.reduce((prev, curr) => prev + curr, 0) || 0;
+            const population = populationDict[feature.attributes["FIPS"]] || Infinity;
+
+            perThousand.push({
+              feature,
+              value: (aggregated / population) * 1000
+            });
+            totalCases.push({
+              feature,
+              value: aggregated
+            });
+          }
+
+          // create graphics
+          totalCasesGraphics = createGraphics(totalCases, 0, 0.5, "Total cases");
+          perThousandGraphics = createGraphics(perThousand, 0, 1, "Cases per 1k");
+
+          totalCaseButton = document.getElementById("totalCases");
+          perThousandButton = document.getElementById("perThousand");
+
+          totalCaseButton.addEventListener("click", () => {
+            view.graphics.removeAll();
+            view.graphics.addMany(totalCasesGraphics);
+            perThousandButton.classList.remove("active");
+            totalCaseButton.classList.add("active");
+          });
+
+          perThousandButton.addEventListener("click", () => {
+            view.graphics.removeAll();
+            view.graphics.addMany(perThousandGraphics);
+            totalCaseButton.classList.remove("active");
+            perThousandButton.classList.add("active");
+          });
+
+          function createGraphics(graphicsInfo, minStop, maxStop, popupDescription) {
+            graphicsInfo.sort((a, b) => (a.value >= b.value ? 1 : -1));
+            const max = graphicsInfo[graphicsInfo.length - 1].value * maxStop;
+            const min = graphicsInfo[graphicsInfo.length - 1].value * minStop;
+
+            let graphics = [];
+            graphicsInfo.forEach((v) => {
+              const feature = v.feature;
+              const value = v.value;
+              const yMax = value > max ? max - min : value < min ? 0 : value - min;
+              let normalizedPathYMax = Math.floor((yMax / (max - min)) * 100);
+              
+              normalizedPathYMax = normalizedPathYMax < 2 ? 2 : normalizedPathYMax;
+              const path = [
+                  [0, 0],
+                  [5, normalizedPathYMax],
+                  [10, 0]
+              ];
+              const size = normalizedPathYMax;
+              // define CIM symbol JSON for each county based on the covid-19 data values
+              const symbol = {
+                type: "CIMPointSymbol",
+                symbolLayers: [
+                  {
+                    type: "CIMVectorMarker",
+                    enable: true,
+                    scaleSymbolsProportionally: false,
+                    respectFrame: false,
+                    size: size,
+                    offsetY: size / 2,
+                    frame: {
+                      xmin: 0,
+                      ymin: 0,
+                      xmax: 10,
+                      ymax: size
+                    },
+                    markerGraphics: [
+                      {
+                        type: "CIMMarkerGraphic",
+                        geometry: {
+                          rings: [path]
+                        },
+                        symbol: {
+                          type: "CIMPolygonSymbol",
+                          symbolLayers: [
+                            {
+                              type: "CIMSolidStroke",
+                              width: 1,
+                              color: [255, 255, 255, 255]
+                            },
+                            {
+                              type: "CIMSolidFill",
+                              color: [255, 0, 0, 255]
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              };
+
+              graphics.push({
+                geometry: feature.geometry.centroid,
+                attributes: {
+                  countyname: feature.attributes["Countyname"],
+                  cases: popupDescription == "Cases per 1k" ?value.toFixed(2) : value
+                },
+                popupTemplate: {
+                  // autocasts as new PopupTemplate()
+                  title: "{countyname}",
+                  content: popupDescription + ": {cases}"
+                },
+                symbol: {
+                  type: "cim",
+                  data: {
+                    type: "CIMSymbolReference",
+                    symbol
+                  }
+                }
+              });
+            });
+
+            return graphics;
+          }
+
+          view.graphics.addMany(perThousandGraphics);
+        })());
+
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+    <div id="topbar">
+      <button class="action-button" id="totalCases" title="Total Case">
+        Total cases
+      </button>
+      <button class="action-button active" id="perThousand" title="Cases per 1k">
+        Cases per 1k
+      </button>
+    </div>
+  </body>
+</html>
+

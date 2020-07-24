@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>CIMSymbol - 4.16</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.16/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.16"></script>
+
+  <script>
+    require([
+      "esri/views/MapView",
+      "esri/Map",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer"
+    ], function(MapView, Map, Graphic, GraphicsLayer) {
+      // Set up initial graphics
+      const multipleLayerDash = new Graphic({
+        geometry: {
+          type: "polyline",
+          paths: [
+            [85, 62],
+            [90, 66],
+            [94, 59],
+            [100, 63],
+          ]
+        },
+        symbol: {
+          type: "cim",
+          data: {
+            type: "CIMSymbolReference",
+            "symbol": {
+              "type": "CIMLineSymbol",
+              "symbolLayers": [{
+                  "type": "CIMSolidStroke",
+                  "effects": [{
+                      "type": "CIMGeometricEffectDashes",
+                      "dashTemplate": [
+                        0,
+                        5,
+                        5,
+                        0
+                      ],
+                      "lineDashEnding": "NoConstraint",
+                      "controlPointEnding": "NoConstraint"
+                    },
+                    {
+                      "type": "CIMGeometricEffectOffset",
+                      "method": "Rounded",
+                      "offset": -1.15,
+                      "option": "Fast"
+                    }
+                  ],
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 2.3,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "effects": [{
+                      "type": "CIMGeometricEffectDashes",
+                      "dashTemplate": [
+                        5,
+                        5
+                      ],
+                      "lineDashEnding": "NoConstraint",
+                      "controlPointEnding": "NoConstraint"
+                    },
+                    {
+                      "type": "CIMGeometricEffectOffset",
+                      "method": "Rounded",
+                      "offset": 1.15,
+                      "option": "Fast"
+                    }
+                  ],
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 2.3,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 4.6,
+                  "color": [
+                    255,
+                    255,
+                    255,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "colorLocked": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 5,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      });
+      const hash90degrees = new Graphic({
+        geometry: {
+          type: "polyline",
+          paths: [
+            [102, 62],
+            [107, 66],
+            [111, 59],
+            [117, 63],
+          ]
+        },
+        symbol: {
+          type: "cim",
+          data: {
+            type: "CIMSymbolReference",
+            "symbol": {
+              "type": "CIMLineSymbol",
+              "symbolLayers": [{
+                  "type": "CIMVectorMarker",
+                  "enable": true,
+                  "anchorPointUnits": "Relative",
+                  "dominantSizeAxis3D": "Z",
+                  "rotation": 90,
+                  "size": 4,
+                  "billboardMode3D": "FaceNearPlane",
+                  "markerPlacement": {
+                    "type": "CIMMarkerPlacementAlongLineSameSize",
+                    "angleToLine": true,
+                    "controlPointPlacement": "NoConstraint",
+                    "endings": "NoConstraint",
+                    "offsetAlongLine": 7.5,
+                    "placementTemplate": [
+                      15
+                    ]
+                  },
+                  "frame": {
+                    "xmin": -2,
+                    "ymin": -2,
+                    "xmax": 2,
+                    "ymax": 2
+                  },
+                  "markerGraphics": [{
+                    "type": "CIMMarkerGraphic",
+                    "geometry": {
+                      "paths": [
+                        [
+                          [
+                            2,
+                            0
+                          ],
+                          [
+                            -2,
+                            0
+                          ]
+                        ]
+                      ]
+                    },
+                    "symbol": {
+                      "type": "CIMLineSymbol",
+                      "symbolLayers": [{
+                        "type": "CIMSolidStroke",
+                        "enable": true,
+                        "capStyle": "Butt",
+                        "joinStyle": "Round",
+                        "lineStyle3D": "Strip",
+                        "miterLimit": 10,
+                        "width": 0.4,
+                        "color": [
+                          0,
+                          0,
+                          0,
+                          255
+                        ]
+                      }]
+                    }
+                  }],
+                  "respectFrame": false
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.8,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                }
+              ]
+            },
+          }
+        }
+      });
+      const dashedLine = new Graphic({
+        geometry: {
+          type: "polyline",
+          paths: [
+            [118, 62],
+            [123, 66],
+            [128, 59],
+            [133, 63],
+          ]
+        },
+        symbol: {
+          type: "cim",
+          data: {
+            type: "CIMSymbolReference",
+            "symbol": {
+              "type": "CIMLineSymbol",
+              "symbolLayers": [{
+                "type": "CIMSolidStroke",
+                "effects": [{
+                  "type": "CIMGeometricEffectDashes",
+                  "dashTemplate": [
+                    6,
+                    1,
+                    2,
+                    1,
+                    2,
+                    1,
+                    2,
+                    1
+                  ],
+                  "lineDashEnding": "NoConstraint",
+                  "controlPointEnding": "NoConstraint"
+                }],
+                "enable": true,
+                "capStyle": "Butt",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 10,
+                "width": 1,
+                "color": [
+                  199,
+                  81,
+                  106,
+                  255
+                ]
+              }]
+            },
+          }
+        }
+      });
+      const pictureLine = new Graphic({
+        geometry: {
+          type: "polyline",
+          paths: [
+            [85, 52],
+            [90, 56],
+            [94, 47],
+            [100, 53],
+          ]
+        },
+        symbol: {
+          type: "cim",
+          data: {
+            type: "CIMSymbolReference",
+            "symbol": {
+              "type": "CIMLineSymbol",
+              "symbolLayers": [{
+                "type": "CIMPictureFill",
+                "effects": [{
+                  "type": "CIMGeometricEffectBuffer",
+                  "size": 5
+                }],
+                "enable": true,
+                "url": "data:image/bmp;base64,Qk0+CAAAAAAAAD4AAAAoAAAAgAAAAIAAAAABAAEAAAAAAAAIAABtCwAAbQsAAAIAAAACAAAA////\nAAAAAAD/////////////////////gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAP////////////////////8AgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA/////////////////////4AAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAD/////////////\n////////AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgP////////////////////+AAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAA/////////////////////wCAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAID/////////////////////gACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAP//////////////\n//////8AgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACA/////////////////////4AAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgAD/////////////////////AIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgP////////////////////+AAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA////////////////\n/////wCAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAID/////////////////////gACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAP////////////////////8AgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA/////////////////////4AAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAD/////////////////\n////AIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACA\nAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAA\ngA==",
+                "scaleX": 1,
+                "height": 96,
+                "textureFilter": "Draft",
+                "colorSubstitutions": [{
+                    "type": "CIMColorSubstitution",
+                    "oldColor": [
+                      0,
+                      0,
+                      0,
+                      255
+                    ],
+                    "newColor": [
+                      0,
+                      0,
+                      0,
+                      255
+                    ]
+                  },
+                  {
+                    "type": "CIMColorSubstitution",
+                    "oldColor": [
+                      255,
+                      255,
+                      255,
+                      255
+                    ],
+                    "newColor": [
+                      255,
+                      255,
+                      115,
+                      255
+                    ]
+                  }
+                ]
+              }]
+            },
+          }
+        }
+      });
+      const markerDash = new Graphic({
+        geometry: {
+          type: "polyline",
+          paths: [
+            [102, 52],
+            [107, 56],
+            [111, 47],
+            [117, 53],
+          ]
+        },
+        symbol: {
+          type: "cim",
+          data: {
+            type: "CIMSymbolReference",
+            symbol: {
+              type: "CIMLineSymbol",
+              "symbolLayers": [{
+                  "type": "CIMVectorMarker",
+                  "enable": true,
+                  "anchorPoint": {
+                    "x": 8.63053682149073e-9,
+                    "y": 0
+                  },
+                  "anchorPointUnits": "Relative",
+                  "dominantSizeAxis3D": "Y",
+                  "size": 10,
+                  "billboardMode3D": "FaceNearPlane",
+                  "markerPlacement": {
+                    "type": "CIMMarkerPlacementAlongLineSameSize",
+                    "angleToLine": true,
+                    "controlPointPlacement": "NoConstraint",
+                    "endings": "NoConstraint",
+                    "offsetAlongLine": 9.5,
+                    "placementTemplate": [
+                      20
+                    ]
+                  },
+                  "frame": {
+                    "xmin": -603,
+                    "ymin": -300,
+                    "xmax": 603,
+                    "ymax": 300
+                  },
+                  "markerGraphics": [{
+                    "type": "CIMMarkerGraphic",
+                    "geometry": {
+                      "rings": [
+                        [
+                          [
+                            -254,
+                            91
+                          ],
+                          [
+                            -257,
+                            89
+                          ],
+                          [
+                            -259,
+                            83
+                          ],
+                          [
+                            -259,
+                            -83
+                          ],
+                          [
+                            -258,
+                            -86
+                          ],
+                          [
+                            -257,
+                            -89
+                          ],
+                          [
+                            -253,
+                            -92
+                          ],
+                          [
+                            -250,
+                            -92
+                          ],
+                          [
+                            249,
+                            -92
+                          ],
+                          [
+                            253,
+                            -92
+                          ],
+                          [
+                            256,
+                            -90
+                          ],
+                          [
+                            258,
+                            -87
+                          ],
+                          [
+                            258,
+                            -83
+                          ],
+                          [
+                            258,
+                            83
+                          ],
+                          [
+                            258,
+                            86
+                          ],
+                          [
+                            256,
+                            89
+                          ],
+                          [
+                            253,
+                            91
+                          ],
+                          [
+                            249,
+                            92
+                          ],
+                          [
+                            -250,
+                            92
+                          ],
+                          [
+                            -254,
+                            91
+                          ]
+                        ],
+                        [
+                          [
+                            249,
+                            105
+                          ],
+                          [
+                            254,
+                            105
+                          ],
+                          [
+                            258,
+                            103
+                          ],
+                          [
+                            262,
+                            101
+                          ],
+                          [
+                            265,
+                            98
+                          ],
+                          [
+                            268,
+                            95
+                          ],
+                          [
+                            270,
+                            91
+                          ],
+                          [
+                            271,
+                            87
+                          ],
+                          [
+                            271,
+                            83
+                          ],
+                          [
+                            271,
+                            -83
+                          ],
+                          [
+                            271,
+                            -88
+                          ],
+                          [
+                            270,
+                            -92
+                          ],
+                          [
+                            268,
+                            -95
+                          ],
+                          [
+                            265,
+                            -99
+                          ],
+                          [
+                            262,
+                            -101
+                          ],
+                          [
+                            258,
+                            -103
+                          ],
+                          [
+                            254,
+                            -105
+                          ],
+                          [
+                            249,
+                            -105
+                          ],
+                          [
+                            -250,
+                            -105
+                          ],
+                          [
+                            -254,
+                            -105
+                          ],
+                          [
+                            -258,
+                            -103
+                          ],
+                          [
+                            -262,
+                            -101
+                          ],
+                          [
+                            -265,
+                            -99
+                          ],
+                          [
+                            -268,
+                            -95
+                          ],
+                          [
+                            -270,
+                            -92
+                          ],
+                          [
+                            -271,
+                            -88
+                          ],
+                          [
+                            -272,
+                            -83
+                          ],
+                          [
+                            -272,
+                            83
+                          ],
+                          [
+                            -271,
+                            87
+                          ],
+                          [
+                            -270,
+                            91
+                          ],
+                          [
+                            -268,
+                            95
+                          ],
+                          [
+                            -265,
+                            98
+                          ],
+                          [
+                            -262,
+                            101
+                          ],
+                          [
+                            -258,
+                            103
+                          ],
+                          [
+                            -254,
+                            105
+                          ],
+                          [
+                            -250,
+                            105
+                          ],
+                          [
+                            249,
+                            105
+                          ]
+                        ]
+                      ]
+                    },
+                    "symbol": {
+                      "type": "CIMPolygonSymbol",
+                      "symbolLayers": [{
+                        "type": "CIMSolidFill",
+                        "enable": true,
+                        "color": [
+                          0,
+                          77,
+                          168,
+                          255
+                        ]
+                      }]
+                    }
+                  }],
+                  "respectFrame": true
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "effects": [{
+                    "type": "CIMGeometricEffectDashes",
+                    "dashTemplate": [
+                      6,
+                      9,
+                      5,
+                      0
+                    ],
+                    "lineDashEnding": "NoConstraint",
+                    "controlPointEnding": "NoConstraint"
+                  }],
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 1,
+                  "color": [
+                    0,
+                    77,
+                    168,
+                    255
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      });
+      const starMarker = new Graphic({
+        geometry: {
+          type: "polyline",
+          paths: [
+            [118, 52],
+            [123, 56],
+            [128, 47],
+            [133, 53],
+          ]
+        },
+        symbol: {
+          type: "cim",
+          data: {
+            type: "CIMSymbolReference",
+            symbol: {
+              "type": "CIMLineSymbol",
+              "symbolLayers": [{
+                "type": "CIMVectorMarker",
+                "enable": true,
+                "anchorPointUnits": "Relative",
+                "dominantSizeAxis3D": "Z",
+                "size": 10,
+                "billboardMode3D": "FaceNearPlane",
+                "markerPlacement": {
+                  "type": "CIMMarkerPlacementAlongLineSameSize",
+                  "angleToLine": true,
+                  "controlPointPlacement": "NoConstraint",
+                  "endings": "NoConstraint",
+                  "offsetAlongLine": 18.75,
+                  "placementTemplate": [
+                    19.5
+                  ]
+                },
+                "frame": {
+                  "xmin": -5,
+                  "ymin": -5,
+                  "xmax": 5,
+                  "ymax": 5
+                },
+                "markerGraphics": [{
+                  "type": "CIMMarkerGraphic",
+                  "geometry": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "symbol": {
+                    "type": "CIMPointSymbol",
+                    "haloSize": 0,
+                    "scaleX": 1,
+                    "angleAlignment": "Display",
+                    "symbolLayers": [{
+                        "type": "CIMVectorMarker",
+                        "enable": true,
+                        "colorLocked": true,
+                        "anchorPoint": {
+                          "x": 0,
+                          "y": 0.000013185654008462204
+                        },
+                        "anchorPointUnits": "Relative",
+                        "dominantSizeAxis3D": "Y",
+                        "rotation": -1.2789769243681803e-13,
+                        "size": 16,
+                        "billboardMode3D": "FaceNearPlane",
+                        "frame": {
+                          "xmin": -313,
+                          "ymin": -300,
+                          "xmax": 313,
+                          "ymax": 300
+                        },
+                        "markerGraphics": [{
+                          "type": "CIMMarkerGraphic",
+                          "geometry": {
+                            "rings": [
+                              [
+                                [
+                                  -31,
+                                  21
+                                ],
+                                [
+                                  -128,
+                                  21
+                                ],
+                                [
+                                  -49,
+                                  -37
+                                ],
+                                [
+                                  -79,
+                                  -130
+                                ],
+                                [
+                                  0,
+                                  -72
+                                ],
+                                [
+                                  79,
+                                  -130
+                                ],
+                                [
+                                  49,
+                                  -37
+                                ],
+                                [
+                                  128,
+                                  21
+                                ],
+                                [
+                                  30,
+                                  21
+                                ],
+                                [
+                                  0,
+                                  113
+                                ],
+                                [
+                                  -31,
+                                  21
+                                ]
+                              ],
+                              [
+                                [
+                                  50,
+                                  47
+                                ],
+                                [
+                                  210,
+                                  47
+                                ],
+                                [
+                                  80,
+                                  -48
+                                ],
+                                [
+                                  130,
+                                  -200
+                                ],
+                                [
+                                  0,
+                                  -106
+                                ],
+                                [
+                                  -130,
+                                  -200
+                                ],
+                                [
+                                  -80,
+                                  -47
+                                ],
+                                [
+                                  -210,
+                                  47
+                                ],
+                                [
+                                  -50,
+                                  47
+                                ],
+                                [
+                                  0,
+                                  199
+                                ],
+                                [
+                                  50,
+                                  47
+                                ]
+                              ]
+                            ]
+                          },
+                          "symbol": {
+                            "type": "CIMPolygonSymbol",
+                            "symbolLayers": [{
+                              "type": "CIMSolidFill",
+                              "enable": true,
+                              "colorLocked": true,
+                              "color": [
+                                0,
+                                0,
+                                0,
+                                255
+                              ]
+                            }]
+                          }
+                        }],
+                        "respectFrame": true
+                      },
+                      {
+                        "type": "CIMVectorMarker",
+                        "enable": true,
+                        "anchorPoint": {
+                          "x": 0,
+                          "y": 0.000007727378100620778
+                        },
+                        "anchorPointUnits": "Relative",
+                        "dominantSizeAxis3D": "Y",
+                        "rotation": -1.2789769243681803e-13,
+                        "size": 16,
+                        "billboardMode3D": "FaceNearPlane",
+                        "frame": {
+                          "xmin": -310,
+                          "ymin": -300,
+                          "xmax": 310,
+                          "ymax": 300
+                        },
+                        "markerGraphics": [{
+                          "type": "CIMMarkerGraphic",
+                          "geometry": {
+                            "rings": [
+                              [
+                                [
+                                  37,
+                                  48
+                                ],
+                                [
+                                  172,
+                                  48
+                                ],
+                                [
+                                  66,
+                                  -35
+                                ],
+                                [
+                                  108,
+                                  -165
+                                ],
+                                [
+                                  -2,
+                                  -84
+                                ],
+                                [
+                                  -109,
+                                  -164
+                                ],
+                                [
+                                  -67,
+                                  -35
+                                ],
+                                [
+                                  -172,
+                                  48
+                                ],
+                                [
+                                  -41,
+                                  48
+                                ],
+                                [
+                                  -2,
+                                  165
+                                ],
+                                [
+                                  37,
+                                  48
+                                ]
+                              ]
+                            ]
+                          },
+                          "symbol": {
+                            "type": "CIMPolygonSymbol",
+                            "symbolLayers": [{
+                              "type": "CIMSolidFill",
+                              "enable": true,
+                              "color": [
+                                0,
+                                255,
+                                0,
+                                255
+                              ]
+                            }]
+                          }
+                        }],
+                        "respectFrame": true
+                      }
+                    ]
+                  }
+                }],
+                "respectFrame": false
+              }]
+            },
+          }
+        }
+      });
+      const stripedPolygon = new Graphic({
+        geometry: {
+          type: "polygon", // autocasts as new Polygon()
+          rings: [
+            [85, 45],
+            [91, 45],
+            [91, 40],
+            [85, 40],
+            [85, 45]
+          ]
+        },
+        symbol: {
+          type: "cim", // autocasts as new SimpleFillSymbol()
+          data: {
+            type: "CIMSymbolReference",
+            symbol: {
+              "type": "CIMPolygonSymbol",
+              "symbolLayers": [{
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Round",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.4,
+                  "color": [
+                    254,
+                    177,
+                    25,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMHatchFill",
+                  "enable": true,
+                  "lineSymbol": {
+                    "type": "CIMLineSymbol",
+                    "symbolLayers": [{
+                      "type": "CIMSolidStroke",
+                      "enable": true,
+                      "capStyle": "Butt",
+                      "joinStyle": "Miter",
+                      "lineStyle3D": "Strip",
+                      "miterLimit": 10,
+                      "width": 0.4,
+                      "color": [
+                        254,
+                        177,
+                        25,
+                        255
+                      ]
+                    }]
+                  },
+                  "offsetX": 0.9,
+                  "rotation": 90,
+                  "separation": 5
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Miter",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMHatchFill",
+                  "enable": true,
+                  "lineSymbol": {
+                    "type": "CIMLineSymbol",
+                    "symbolLayers": [{
+                      "type": "CIMSolidStroke",
+                      "enable": true,
+                      "capStyle": "Butt",
+                      "joinStyle": "Miter",
+                      "lineStyle3D": "Strip",
+                      "miterLimit": 10,
+                      "width": 0.8,
+                      "color": [
+                        254,
+                        177,
+                        25,
+                        255
+                      ]
+                    }]
+                  },
+                  "rotation": 90,
+                  "separation": 5
+                }
+              ]
+            },
+          }
+        }
+      });
+      const dottedPolygon = new Graphic({
+        geometry: {
+          type: "polygon", // autocasts as new Polygon()
+          rings: [
+            [95, 45],
+            [101, 45],
+            [101, 40],
+            [95, 40],
+            [95, 45]
+          ]
+        },
+        symbol: {
+          type: "cim", // autocasts as new SimpleFillSymbol()
+          data: {
+            type: "CIMSymbolReference",
+            symbol: {
+              "type": "CIMPolygonSymbol",
+              "symbolLayers": [{
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Round",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.4,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "colorLocked": true,
+                  "capStyle": "Round",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 1,
+                  "color": [
+                    110,
+                    110,
+                    110,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMVectorMarker",
+                  "enable": true,
+                  "colorLocked": true,
+                  "anchorPointUnits": "Relative",
+                  "dominantSizeAxis3D": "Z",
+                  "size": 10,
+                  "billboardMode3D": "FaceNearPlane",
+                  "markerPlacement": {
+                    "type": "CIMMarkerPlacementInsidePolygon",
+                    "gridType": "Fixed",
+                    "seed": 25604,
+                    "stepX": 12,
+                    "stepY": 12,
+                    "clipping": "ClipAtBoundary",
+                    "stdDeviationX": 6,
+                    "stdDeviationY": 6
+                  },
+                  "frame": {
+                    "xmin": -5,
+                    "ymin": -5,
+                    "xmax": 5,
+                    "ymax": 5
+                  },
+                  "markerGraphics": [{
+                    "type": "CIMMarkerGraphic",
+                    "geometry": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "symbol": {
+                      "type": "CIMPointSymbol",
+                      "haloSize": 0,
+                      "scaleX": 1,
+                      "symbol3DProperties": {
+                        "type": "CIM3DSymbolProperties",
+                        "dominantSizeAxis3D": "Z",
+                        "scaleZ": 1,
+                        "scaleY": 1,
+                        "rotationOrder3D": "XYZ"
+                      },
+                      "angleAlignment": "Display",
+                      "symbolLayers": [{
+                        "type": "CIMVectorMarker",
+                        "enable": true,
+                        "colorLocked": true,
+                        "anchorPoint": {
+                          "x": 0,
+                          "y": 0
+                        },
+                        "anchorPointUnits": "Absolute",
+                        "dominantSizeAxis3D": "Z",
+                        "size": 6,
+                        "billboardMode3D": "FaceNearPlane",
+                        "frame": {
+                          "xmin": -2,
+                          "ymin": -2,
+                          "xmax": 2,
+                          "ymax": 2
+                        },
+                        "markerGraphics": [{
+                          "type": "CIMMarkerGraphic",
+                          "geometry": {
+                            "rings": [
+                              [
+                                [
+                                  0,
+                                  2
+                                ],
+                                [
+                                  0.35,
+                                  1.97
+                                ],
+                                [
+                                  0.68,
+                                  1.88
+                                ],
+                                [
+                                  1,
+                                  1.73
+                                ],
+                                [
+                                  1.29,
+                                  1.53
+                                ],
+                                [
+                                  1.53,
+                                  1.29
+                                ],
+                                [
+                                  1.73,
+                                  1
+                                ],
+                                [
+                                  1.88,
+                                  0.68
+                                ],
+                                [
+                                  1.97,
+                                  0.35
+                                ],
+                                [
+                                  2,
+                                  0
+                                ],
+                                [
+                                  1.97,
+                                  -0.35
+                                ],
+                                [
+                                  1.88,
+                                  -0.68
+                                ],
+                                [
+                                  1.73,
+                                  -1
+                                ],
+                                [
+                                  1.53,
+                                  -1.29
+                                ],
+                                [
+                                  1.29,
+                                  -1.53
+                                ],
+                                [
+                                  1,
+                                  -1.73
+                                ],
+                                [
+                                  0.68,
+                                  -1.88
+                                ],
+                                [
+                                  0.35,
+                                  -1.97
+                                ],
+                                [
+                                  0,
+                                  -2
+                                ],
+                                [
+                                  -0.35,
+                                  -1.97
+                                ],
+                                [
+                                  -0.68,
+                                  -1.88
+                                ],
+                                [
+                                  -1,
+                                  -1.73
+                                ],
+                                [
+                                  -1.29,
+                                  -1.53
+                                ],
+                                [
+                                  -1.53,
+                                  -1.29
+                                ],
+                                [
+                                  -1.73,
+                                  -1
+                                ],
+                                [
+                                  -1.88,
+                                  -0.68
+                                ],
+                                [
+                                  -1.97,
+                                  -0.35
+                                ],
+                                [
+                                  -2,
+                                  0
+                                ],
+                                [
+                                  -1.97,
+                                  0.35
+                                ],
+                                [
+                                  -1.88,
+                                  0.68
+                                ],
+                                [
+                                  -1.73,
+                                  1
+                                ],
+                                [
+                                  -1.53,
+                                  1.29
+                                ],
+                                [
+                                  -1.29,
+                                  1.53
+                                ],
+                                [
+                                  -1,
+                                  1.73
+                                ],
+                                [
+                                  -0.68,
+                                  1.88
+                                ],
+                                [
+                                  -0.35,
+                                  1.97
+                                ],
+                                [
+                                  0,
+                                  2
+                                ]
+                              ]
+                            ]
+                          },
+                          "symbol": {
+                            "type": "CIMPolygonSymbol",
+                            "symbolLayers": [{
+                                "type": "CIMSolidStroke",
+                                "enable": true,
+                                "capStyle": "Round",
+                                "joinStyle": "Round",
+                                "lineStyle3D": "Strip",
+                                "miterLimit": 10,
+                                "width": 0
+                              },
+                              {
+                                "type": "CIMSolidFill",
+                                "enable": true,
+                                "color": [
+                                  0,
+                                  0,
+                                  0,
+                                  255
+                                ]
+                              }
+                            ]
+                          }
+                        }],
+                        "respectFrame": false
+                      }]
+                    }
+                  }],
+                  "respectFrame": false
+                }
+              ]
+            },
+          }
+        }
+      });
+      const pictureFillPolygon = new Graphic({
+        geometry: {
+          type: "polygon", // autocasts as new Polygon()
+          rings: [
+            [105, 45],
+            [111, 45],
+            [111, 40],
+            [105, 40],
+            [105, 45]
+          ]
+        },
+        symbol: {
+          type: "cim", // autocasts as new SimpleFillSymbol()
+          data: {
+            type: "CIMSymbolReference",
+            symbol: {
+              "type": "CIMPolygonSymbol",
+              "symbolLayers": [{
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Round",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.4,
+                  "color": [
+                    109,
+                    187,
+                    67,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMPictureMarker",
+                  "enable": true,
+                  "anchorPointUnits": "Relative",
+                  "dominantSizeAxis3D": "Z",
+                  "size": 36,
+                  "billboardMode3D": "FaceNearPlane",
+                  "markerPlacement": {
+                    "type": "CIMMarkerPlacementInsidePolygon",
+                    "gridType": "Fixed",
+                    "offsetX": 5,
+                    "seed": 25604,
+                    "stepX": 52.75,
+                    "stepY": 26,
+                    "clipping": "ClipAtBoundary",
+                    "stdDeviationX": 26.375,
+                    "stdDeviationY": 13
+                  },
+                  "colorSubstitutions": [{
+                      "type": "CIMColorSubstitution",
+                      "oldColor": [
+                        0,
+                        0,
+                        0,
+                        255
+                      ],
+                      "newColor": [
+                        109,
+                        187,
+                        67,
+                        255
+                      ]
+                    },
+                    {
+                      "type": "CIMColorSubstitution",
+                      "oldColor": [
+                        255,
+                        255,
+                        255,
+                        255
+                      ],
+                      "newColor": [
+                        255,
+                        255,
+                        255,
+                        255
+                      ]
+                    }
+                  ],
+                  "invertBackfaceTexture": true,
+                  "scaleX": 1,
+                  "textureFilter": "Draft",
+                  "url": "data:image/bmp;base64,Qk2+AQAAAAAAAD4AAAAoAAAAOQAAADAAAAABAAEAAAAAAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAP///wD2+33/nff/gOD4ff/Bh8GA3/+Nj/55vYC///G3//49gLDgBAf//cOAxuzv//8d/4DW48/+\nft3/gBCfMH2cHD4Af2B3vcH7voD/bfu+F/u9gMbMPD/zPDwAlh3Px/1f/4C3/dex/N//gIf4WZ4D\n4+eAvxtt4Pft24C+23P/8e3bgAbbf4/I8eIA0Bx/sB8/+oDd//+3v4/9gDh3g44/t/gAs5t78V+3\n4oC92LuG78fagD5/xi7h/7MA8fx+zO7/j4Du+34y7v/8gA77f4bgz/oA8ft/rvu3/ID/+P+df7fP\ngDAbw/2/g7cAt8vb/p/5toC2d9v+f/wOgDDw54//4f4A//sPr//N/oD8++9v/93OgPLz8B8PY7aA\n9uuF/u6/toD223X+3t/OgCDbZgAeXiAAn+cdvv8Nn4Df//3e//HYgIP/w8YHz+aAvB+7s3uv+IA+\n77u7e3efgN73x4OHZG4A3w/8f/9t3oC///u//5w+gD/4+D/D4f8A8ft9/733/4A="
+                },
+                {
+                  "type": "CIMSolidFill",
+                  "enable": true,
+                  "color": [
+                    255,
+                    255,
+                    255,
+                    255
+                  ]
+                }
+              ]
+            },
+          }
+        }
+      });
+      const doubleOutline = new Graphic({
+        geometry: {
+          type: "polygon", // autocasts as new Polygon()
+          rings: [
+            [115, 45],
+            [121, 45],
+            [121, 40],
+            [115, 40],
+            [115, 45]
+          ]
+        },
+        symbol: {
+          type: "cim", // autocasts as new SimpleFillSymbol()
+          data: {
+            type: "CIMSymbolReference",
+            "symbol": {
+              "type": "CIMPolygonSymbol",
+              "symbolLayers": [{
+                  "type": "CIMSolidStroke",
+                  "effects": [{
+                    "type": "CIMGeometricEffectOffset",
+                    "method": "Rounded",
+                    "offset": -1.3,
+                    "option": "Fast"
+                  }],
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.2,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "effects": [{
+                    "type": "CIMGeometricEffectOffset",
+                    "method": "Rounded",
+                    "offset": 1.3,
+                    "option": "Fast"
+                  }],
+                  "enable": true,
+                  "capStyle": "Butt",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.2,
+                  "color": [
+                    0,
+                    0,
+                    0,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidFill",
+                  "enable": true,
+                  "color": [
+                    248,
+                    252,
+                    179,
+                    255
+                  ]
+                }
+              ]
+            },
+          }
+        }
+      });
+      const markerFill = new Graphic({
+        geometry: {
+          type: "polygon", // autocasts as new Polygon()
+          rings: [
+            [125, 45],
+            [131, 45],
+            [131, 40],
+            [125, 40],
+            [125, 45]
+          ]
+        },
+        symbol: {
+          type: "cim", // autocasts as new SimpleFillSymbol()
+          data: {
+            type: "CIMSymbolReference",
+            "symbol": {
+              "type": "CIMPolygonSymbol",
+              "symbolLayers": [{
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "colorLocked": true,
+                  "capStyle": "Round",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 1,
+                  "color": [
+                    110,
+                    110,
+                    110,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMVectorMarker",
+                  "enable": true,
+                  "colorLocked": true,
+                  "anchorPointUnits": "Relative",
+                  "dominantSizeAxis3D": "Z",
+                  "size": 10,
+                  "billboardMode3D": "FaceNearPlane",
+                  "markerPlacement": {
+                    "type": "CIMMarkerPlacementInsidePolygon",
+                    "gridType": "Fixed",
+                    "seed": 25604,
+                    "stepX": 12,
+                    "stepY": 12,
+                    "clipping": "ClipAtBoundary",
+                    "stdDeviationX": 6,
+                    "stdDeviationY": 6
+                  },
+                  "frame": {
+                    "xmin": -5,
+                    "ymin": -5,
+                    "xmax": 5,
+                    "ymax": 5
+                  },
+                  "markerGraphics": [{
+                    "type": "CIMMarkerGraphic",
+                    "geometry": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "symbol": {
+                      "type": "CIMPointSymbol",
+                      "haloSize": 0,
+                      "scaleX": 1,
+                      "symbol3DProperties": {
+                        "type": "CIM3DSymbolProperties",
+                        "dominantSizeAxis3D": "Z",
+                        "scaleZ": 1,
+                        "scaleY": 1,
+                        "rotationOrder3D": "XYZ"
+                      },
+                      "angleAlignment": "Display",
+                      "symbolLayers": [{
+                        "type": "CIMVectorMarker",
+                        "enable": true,
+                        "colorLocked": true,
+                        "anchorPoint": {
+                          "x": 0,
+                          "y": 0.000012842465753379884
+                        },
+                        "anchorPointUnits": "Relative",
+                        "dominantSizeAxis3D": "Y",
+                        "size": 18,
+                        "billboardMode3D": "FaceNearPlane",
+                        "frame": {
+                          "xmin": -189,
+                          "ymin": -300,
+                          "xmax": 189,
+                          "ymax": 300
+                        },
+                        "markerGraphics": [{
+                          "type": "CIMMarkerGraphic",
+                          "geometry": {
+                            "rings": [
+                              [
+                                [
+                                  -82,
+                                  -1
+                                ],
+                                [
+                                  0,
+                                  -151
+                                ],
+                                [
+                                  81,
+                                  -1
+                                ],
+                                [
+                                  0,
+                                  149
+                                ],
+                                [
+                                  -82,
+                                  -1
+                                ]
+                              ],
+                              [
+                                [
+                                  120,
+                                  -1
+                                ],
+                                [
+                                  0,
+                                  -210
+                                ],
+                                [
+                                  -120,
+                                  -1
+                                ],
+                                [
+                                  0,
+                                  210
+                                ],
+                                [
+                                  120,
+                                  -1
+                                ]
+                              ]
+                            ]
+                          },
+                          "symbol": {
+                            "type": "CIMPolygonSymbol",
+                            "symbolLayers": [{
+                              "type": "CIMSolidFill",
+                              "enable": true,
+                              "colorLocked": true,
+                              "color": [
+                                0,
+                                0,
+                                0,
+                                255
+                              ]
+                            }]
+                          }
+                        }],
+                        "respectFrame": true
+                      }]
+                    }
+                  }],
+                  "respectFrame": false
+                },
+                {
+                  "type": "CIMSolidStroke",
+                  "enable": true,
+                  "capStyle": "Round",
+                  "joinStyle": "Round",
+                  "lineStyle3D": "Strip",
+                  "miterLimit": 10,
+                  "width": 0.4,
+                  "color": [
+                    64,
+                    101,
+                    235,
+                    255
+                  ]
+                },
+                {
+                  "type": "CIMSolidFill",
+                  "enable": true,
+                  "color": [
+                    151,
+                    219,
+                    242,
+                    255
+                  ]
+                }
+              ]
+            },
+          }
+        }
+      });
+      const lines = [multipleLayerDash, hash90degrees, dashedLine, pictureLine, markerDash, starMarker];
+      const polygons = [stripedPolygon, dottedPolygon, pictureFillPolygon, doubleOutline, markerFill];
+      // GraphicsLayer to hold graphics created via sketch view model
+      const graphicsLayer = new GraphicsLayer({
+        graphics: lines
+      });
+      graphicsLayer.addMany(polygons);
+      const map = new Map({
+        // basemap: "gray",
+        layers: [graphicsLayer]
+      });
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [110, 50],
+        zoom: 5,
+      });
+      console.log(view)
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv">
+  </div>
+</body>
+
+</html>
