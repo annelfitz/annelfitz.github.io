@@ -228,26 +228,27 @@
                   }
                 ]
               };
-
-              graphics.push({
-                geometry: feature.geometry.centroid,
-                attributes: {
-                  countyname: feature.attributes["Countyname"],
-                  cases: popupDescription == "Cases per 1k" ?value.toFixed(2) : value
-                },
-                popupTemplate: {
-                  // autocasts as new PopupTemplate()
-                  title: "{countyname}",
-                  content: popupDescription + ": {cases}"
-                },
-                symbol: {
-                  type: "cim",
-                  data: {
-                    type: "CIMSymbolReference",
-                    symbol
+              if (feature.geometry){
+                graphics.push({
+                  geometry: feature.geometry.centroid,
+                  attributes: {
+                    countyname: feature.attributes["Countyname"],
+                    cases: popupDescription == "Cases per 1k" ?value.toFixed(2) : value
+                  },
+                  popupTemplate: {
+                    // autocasts as new PopupTemplate()
+                    title: "{countyname}",
+                    content: popupDescription + ": {cases}"
+                  },
+                  symbol: {
+                    type: "cim",
+                    data: {
+                      type: "CIMSymbolReference",
+                      symbol
+                    }
                   }
-                }
-              });
+                });
+              }
             });
 
             return graphics;
