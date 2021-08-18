@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>CIMSymbol</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.21"></script>
+
+    <script
+      type="module"
+      src="https://js.arcgis.com/calcite-components/1.0.0-beta.56/calcite.esm.js"
+    ></script>
+    <script src="https://js.arcgis.com/calcite-components/1.0.0-beta.56/calcite.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://js.arcgis.com/calcite-components/1.0.0-beta.56/calcite.css"
+    />
+
+    <script>
+        require([
+            "esri/views/MapView",
+            "esri/Map",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Legend",
+            "esri/symbols/support/cimSymbolUtils"
+        ], function (MapView, Map, FeatureLayer, Legend, cimSymbolUtils) {
+            // Set up initial graphics
+            const cimLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TahoeTrailheads/FeatureServer",
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-marker"
+                    }
+                }
+            });
+
+             const map = new Map({
+                basemap: "gray-vector",
+                layers: [cimLayer]
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-120, 39.05], // centered at Lake Tahoe
+                zoom: 9
+            });
+            const legend = new Legend({
+                view: view
+            });
+            view.ui.add(legend, "top-right");
+
+            let cimJSON = document.getElementById("cimJson");
+            document.getElementById("updateRenderer").addEventListener("click", updateRenderer);
+
+            let colorPicker = document.getElementById("cimColor");
+            colorPicker.addEventListener("calciteColorPickerChange", colorChange)
+
+            function updateRenderer(){
+                let renderer = {
+                    type: "simple",
+                    symbol: {
+                        type: "cim",
+                        data: {
+                            type: "CIMSymbolReference",
+                            symbol: JSON.parse(cimJSON.value)
+                        }
+                    }
+                };
+                cimLayer.renderer = renderer;
+            }
+            function colorChange(event) {
+                const newSymbol = cimLayer.renderer.symbol.clone();
+                cimSymbolUtils.applyCIMSymbolColor(newSymbol, event.target.value);
+                cimLayer.renderer = {
+                    type: "simple",
+                    symbol: newSymbol
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <calcite-shell dir="ltr" class="calcite-theme-light">
+        <div id="viewDiv"></div>
+        <calcite-shell-panel slot="contextual-panel" position="end">
+            <h3>Controls</h3>
+            <calcite-label>CIM Symbol JSON
+                <calcite-input id="cimJson" type="textarea" value="" placeholder="Placeholder text">
+                    <!---->
+                </calcite-input>
+            </calcite-label>
+            <calcite-button id="updateRenderer" appearance="solid" text-enabled="" scale="m">Update renderer</calcite-button>
+            <br>
+            <calcite-label>Change symbol color
+                <calcite-color-picker
+                id="cimColor"
+                dir="ltr"
+                scale="m"
+                value="#b33f33"
+                ></calcite-color-picker>
+            </calcite-label>
+        </calcite-shell-panel>
+    </calcite-shell>
+</body>
+
+</html>
