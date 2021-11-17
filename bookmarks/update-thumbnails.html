@@ -62,13 +62,18 @@
             })
           });
         }
-        updateBtn.innerHTML = "Done updating";
+        updateBtn.innerHTML = "Done updating 🥳";
+        updateBtn.disabled = true;
       });
       saveBtn.addEventListener("click", () => {
         webmap.updateFrom(view).then(() => {
           webmap.save()
-            .then(console.log("saved"))
+            .then(()=>{
+                saveBtn.innerHTML = "Saved! 👍";
+                saveBtn.disabled = true;
+            })
             .catch((error) => {
+              saveBtn.innerHTML = "";
               console.error(error)
             })
         });
