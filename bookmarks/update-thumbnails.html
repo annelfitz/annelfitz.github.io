@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+  <title>Update Bookmark thumbnails</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <script src="https://js.arcgis.com/next/"></script>
+  <script>
+    require([
+      "esri/WebMap",
+      "esri/views/MapView",
+      "esri/widgets/Bookmarks",
+      "esri/widgets/Expand",
+      "esri/core/watchUtils",
+      "esri/config"
+    ], (WebMap, MapView, Bookmarks, Expand, watchUtils, esriConfig) => {
+        const href = window.location.href;
+        const pageURL = new URL(href);
+        const portal = pageURL.searchParams.get("portal") || 'https://www.arcgis.com';
+        const webmapId = pageURL.searchParams.get("webmap") || pageURL.searchParams.get("id") || '2ee3425c0eb045ffa0d87bfd1e16a0aa'; //84bf6b30a1d740fba9f19774e00f0466';
+
+        esriConfig.portalUrl = portal;
+      const webmap = new WebMap({
+        portalItem: {
+          // autocasts as new PortalItem()
+          id: webmapId
+        }
+      });
+      const view = new MapView({
+        container: "viewDiv",
+        map: webmap
+      });
+      const bookmarks = new Bookmarks({
+        view: view,
+        // allows bookmarks to be added, edited, or deleted
+        editingEnabled: true
+      });
+      // Add the widget to the top-right corner of the view
+      view.ui.add(bookmarks, "top-right");
+      const updateBtn = document.getElementById("updateThumbnails");
+      const saveBtn = document.getElementById("saveWebmap");
+      view.ui.add([updateBtn, saveBtn], "top-left");
+      updateBtn.addEventListener("click", async () => {
+        console.log("updating thumbnails");
+        for (let i = 0; i < webmap.bookmarks.length; i++) {
+          let bookmark = webmap.bookmarks.getItemAt(i);
+          await bookmarks.goTo(bookmark).then(async () => {
+            updateBtn.innerHTML = "Updating " + (i + 1) + "/" + webmap.bookmarks.length;
+            await watchUtils.whenFalseOnce(view, "updating", function(val) {
+              bookmarks.viewModel.editBookmark(bookmark)
+            })
+          });
+        }
+        updateBtn.innerHTML = "Done updating";
+      });
+      saveBtn.addEventListener("click", () => {
+        webmap.updateFrom(view).then(() => {
+          webmap.save()
+            .then(console.log("saved"))
+            .catch((error) => {
+              console.error(error)
+            })
+        });
+      })
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <button id="updateThumbnails" class="esri-button">Update thumbnails</button>
+  <button id="saveWebmap" class="esri-button">Save WebMap</button>
+</body>
+
+</html>
