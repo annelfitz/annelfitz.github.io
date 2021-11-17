@@ -64,6 +64,7 @@
         }
         updateBtn.innerHTML = "Done updating 🥳";
         updateBtn.disabled = true;
+        view.goTo(webmap.initialViewProperties.viewpoint);
       });
       saveBtn.addEventListener("click", () => {
         webmap.updateFrom(view).then(() => {
