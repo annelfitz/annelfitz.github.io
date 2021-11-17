@@ -73,7 +73,7 @@
                 saveBtn.disabled = true;
             })
             .catch((error) => {
-              saveBtn.innerHTML = "";
+              saveBtn.innerHTML = "🚨 ERROR SAVING (check console for details) 🚨";
               console.error(error)
             })
         });
