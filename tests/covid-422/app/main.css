@@ -1,0 +1,153 @@
+body {
+  background-color: #ece8e8;
+}
+
+#viewDiv canvas {
+  filter: drop-shadow(0px 14px 8px gray);
+}
+
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+#titleDiv {
+  font-size: 18pt;
+  padding: 10px;
+  font-weight: 800;
+}
+
+#subtitleDiv{
+  font-size: 10pt;
+  padding-bottom: 10px;
+}
+
+#timeOptions {
+  position: absolute;
+  left: 55px;
+  right: 55px;
+  bottom: 30px;
+}
+
+#time-slider-toggle:hover{
+  cursor: pointer;
+}
+
+#ui-controls{
+  padding: 10px;
+  width: 250px;
+}
+
+#legend {
+  width: auto;
+}
+
+.esri-select {
+  font-size: medium;
+}
+
+#difference{
+  margin-top: 10px;
+}
+
+.esri-legend__service {
+  padding: 0
+}
+
+.btn-border {
+  border: 1px solid #4c4c4c;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  font-family: Lucida Sans Typewriter,Lucida Console,monaco,Bitstream Vera Sans Mono,monospace;
+  font-size: 12pt;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  top: 10px;
+  left: 30%;
+}
+#statistics {
+  display: flex;
+  justify-content: center;
+}
+#date-info{
+  display: flex;
+  justify-content: center;
+}
+
+.count{
+  font-weight: 900;
+  font-size: 18px;
+}
+.rate{
+  font-size: 12px;
+}
+.note {
+  font-size: 10px;
+}
+
+#active-label{
+  color: #e60049;
+  margin: 5px;
+  text-align: center;
+}
+#recovered-label{
+  color: #b3cde3;
+  margin:5px;
+  text-align: center;
+}
+#deaths-label{
+  color: #000000;
+  margin: 5px;
+  text-align: center;
+}
+#date-label{
+  margin: 5px;
+}
+
+#info-toggle {
+  visibility: hidden;
+  height: 32px;
+  width: 32px;
+}
+#info-toggle:hover{
+  cursor: pointer;
+}
+
+#info{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  font-size: 16px;
+  background-color: white;
+  width: 340px;
+  position: absolute;
+  left: 47px;
+  bottom: 130px;
+  visibility: visible;
+  z-index: 1;
+}
+.time-buttons{
+  display: flex;
+  justify-content: center;
+}
+
+.esri-view-height-medium .esri-ui-corner .esri-component .esri-expand__content{
+  max-height: 1000px;
+}
+
+.esri-view-height-large .esri-ui-corner .esri-component .esri-expand__content{
+  max-height: 1000px;
+}
+
+.esri-view-height-small .esri-ui-corner .esri-component .esri-expand__content{
+  max-height: 1000px;
+}

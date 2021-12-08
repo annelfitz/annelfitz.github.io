@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Viral - Explore COVID-19</title>
+    <link rel="stylesheet" href="https://jsdev.arcgis.com/4.22/esri/css/main.css">
+    <link rel="stylesheet" href="app/main.css">
+
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+      var locationPath = location.pathname.replace(/\/[^\/]+$/, "");
+      window.dojoConfig = {
+        packages: [
+          {
+            name: "app",
+            location: locationPath + "/app"
+          }
+        ]
+      };
+    </script>
+    <script src="https://jsdev.arcgis.com/4.22/"></script>
+
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+    <div id="info" class="esri-expand__content esri-expand__content--expanded">
+      <div id="date-info">
+        <div id="date-label">
+          <span class="count" id="display-date"></span>
+        </div>
+      </div>
+      <div id="statistics">
+        <div id="active-label">
+          Active* <span class="count" id="active-count"></span> <div class="rate">(<span id="active-rate"></span> per 100k)</div>
+        </div>
+        <div id="deaths-label">
+          Deaths <span class="count" id="death-count"></span> <div class="rate">(<span id="death-rate"></span> per 100k)</div>
+        </div>
+        <div id="recovered-label">
+          Recovered* <span class="count" id="recovered-count"></span> <div class="rate">(<span id="recovered-rate"></span> per 100k)</div>
+        </div>
+      </div>
+      <div class="note">
+        *Active and recovered totals are estimates based on the CDC formula documented <a href="https://www.arcgis.com/home/item.html?id=a16bb8b137ba4d8bbe645301b80e5740">here</a>.
+        See <a href="https://github.com/ekenes/covid19viz">source code</a> for more information.
+      </div>
+    </div>
+    <div id="ui-controls" class="esri-widget">
+      <div style="text-align: center;">
+        <div id="titleDiv" class="esri-widget">
+          Viral
+        </div>
+        <div id="subtitleDiv" class="esri-widget">
+          Explore the spread of COVID-19 in the United States by county
+        </div>
+        <select id="renderer-select" class="esri-select">
+          <option value="total-active" selected>Active cases</option>
+          <option value="active-rate">Active cases per 100k</option>
+          <option value="dot-density">Density of cases </option>
+          <option value="doubling-time">Doubling time</option>
+          <option value="new-total">New cases</option>
+          <option value="total-deaths">Total deaths</option>
+          <option value="death-rate-per-100k">Deaths per 100k</option>
+          <option value="death-rate">Deaths as % of cases</option>
+          <!-- <option value="total-infections">Total cases</option> -->
+          <option value="infection-rate-per-100k">Total cases per 100k </option>
+        </select>
+      </div>
+      <div style="margin-top: 10px;">
+        <label class="toggle-switch modifier-class">
+          <input type="checkbox" class="toggle-switch-input" id="difference">
+          <span class="toggle-switch-track margin-right-1"></span>
+          <span class="toggle-switch-label font-size--1">Explore date range</span>
+        </label>
+      </div>
+      <div id="legend"></div>
+      <div id="legend-note" class="note">
+        *Active and recovered totals are estimates based on the CDC formula documented <a href="https://www.arcgis.com/home/item.html?id=a16bb8b137ba4d8bbe645301b80e5740">here</a>.
+      </div>
+    </div>
+    <div id="timeOptions" style="visibility: visible;">
+      <nav class="time-buttons">
+        <button class="btn btn-grouped btn-clear btn-small" id="labor">Labor Day</button>
+        <button class="btn btn-grouped btn-clear btn-small" id="thanksgiving">Thanksgiving</button>
+        <button class="btn btn-grouped btn-clear btn-small" id="christmas">Christmas</button>
+        <button class="btn btn-grouped btn-clear btn-small" id="sturgis">Sturgis</button>
+        <button class="btn btn-grouped btn-clear btn-small" id="month">One month ago</button>
+        <button class="btn btn-grouped btn-clear btn-small" id="twoWeeks">Two weeks ago</button>
+      </nav>
+      <div id="timeSlider"></div>
+    </div>
+    <div class="esri-component esri-home esri-widget--button esri-widget esri-icon-table" id="info-toggle"></div>
+    <div class="esri-component esri-home esri-widget--button esri-widget esri-icon-expand" id="time-slider-toggle"></div>
+    <script>require(["app/main"]);</script>
+  </body>
+</html>
