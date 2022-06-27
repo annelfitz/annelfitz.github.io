@@ -24,6 +24,10 @@
       &__checkbox,
       &__label {
         padding-left: 12px;
+
+        calcite-checkbox {
+          display: block;
+        }
       }
     }
   }
