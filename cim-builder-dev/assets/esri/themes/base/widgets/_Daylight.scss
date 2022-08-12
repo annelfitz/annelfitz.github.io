@@ -162,7 +162,8 @@
     }
 
     calcite-label {
-      --calcite-label-margin-bottom: 0;
+      // Cancel default calcite component margin. See https://github.com/Esri/calcite-components/issues/2138
+      margin-bottom: -0.6rem;
     }
   }
 
