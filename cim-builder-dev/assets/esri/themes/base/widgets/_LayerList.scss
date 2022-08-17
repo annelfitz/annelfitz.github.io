@@ -206,6 +206,10 @@
     padding: 0 $side-spacing--half;
     transition: border-color 250ms ease-in-out;
   }
+  .esri-layer-list__item-actions-menu-item .esri-disabled-element {
+    pointer-events: none;
+    opacity: $opacity--disabled;
+  }
   .esri-layer-list__item-actions-menu-item:first-of-type {
     margin: 0 2px;
   }
