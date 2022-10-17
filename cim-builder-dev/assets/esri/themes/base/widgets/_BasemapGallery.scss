@@ -40,7 +40,7 @@
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
     animation: esri-fade-in 500ms ease-in-out;
-    transition: background-color 250ms ease-in-out;
+    transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out;
   }
 
   .esri-basemap-gallery__item:first-child {
@@ -83,6 +83,7 @@
     word-break: break-word;
     color: $interactive-font-color;
     padding: 0 $side-spacing--half;
+    transition: color 250ms ease-in-out;
   }
 
   .esri-basemap-gallery__item--selected,
@@ -91,6 +92,7 @@
     cursor: auto;
     border-left-color: $border-color--active;
     background-color: $background-color--active;
+    color: $font-color;
 
     .esri-basemap-gallery__item-title {
       color: $font-color;
@@ -101,10 +103,10 @@
   .esri-basemap-gallery__item:focus {
     outline: none;
     background-color: $background-color--hover;
-    border-left-color: $background-color--hover;
+    border-left-color: $interactive-font-color;
 
     .esri-basemap-gallery__item-title {
-      color: $interactive-font-color;
+      color: $interactive-font-color--hover;
     }
   }
 
@@ -134,6 +136,10 @@
         margin: $cap-spacing--quarter 2%;
         padding: $cap-spacing 0;
         text-align: center;
+      }
+      .esri-basemap-gallery__item:hover,
+      .esri-basemap-gallery__item:focus {
+        border-color: $interactive-font-color;
       }
       .esri-basemap-gallery__item-thumbnail {
         max-width: 100%;

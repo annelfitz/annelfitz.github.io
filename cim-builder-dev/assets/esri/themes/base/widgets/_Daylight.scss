@@ -252,6 +252,7 @@
     display: flex;
     flex-direction: column;
     padding: $cap-spacing $side-spacing;
+    color: $font-color;
   }
 
   .esri-slider-with-dropdown__list-item:hover {

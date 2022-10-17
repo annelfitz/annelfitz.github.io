@@ -104,6 +104,10 @@ $base-scrim-z-index: 50;
   .esri-editor .esri-feature-form {
     width: 100%;
     padding: 0;
+
+    .esri-feature-form__label:last-child {
+      margin-bottom: 12px;
+    }
   }
 
   .esri-editor {
@@ -114,6 +118,15 @@ $base-scrim-z-index: 50;
     .esri-item-list__group {
       margin-left: 0;
       margin-right: 0;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
+
+    .esri-item-list__filter-container,
+    .esri-item-list__filter-container--sticky {
+      margin-bottom: 20px;
     }
   }
 
@@ -159,6 +172,7 @@ $base-scrim-z-index: 50;
   .esri-editor__progress-bar {
     position: absolute;
     width: 100%;
+    z-index: 3; // calcite panel header is 2
   }
 
   .esri-editor__panel-toolbar {
