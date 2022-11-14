@@ -83,6 +83,7 @@
   .esri-directions__departure-time-controls .esri-date-picker,
   .esri-directions__departure-time-controls .esri-time-picker {
     flex: 1 1 0%;
+    border: 1px solid $border-color--input;
     border-top: 0;
   }
 
