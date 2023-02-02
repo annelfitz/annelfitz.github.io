@@ -195,6 +195,7 @@
 
   .esri-bookmarks__time-extent-container {
     padding: $cap-spacing--half $side-spacing $cap-spacing;
+    --calcite-label-margin-bottom: 0;
   }
 
   .esri-bookmarks__time-extent-group {
