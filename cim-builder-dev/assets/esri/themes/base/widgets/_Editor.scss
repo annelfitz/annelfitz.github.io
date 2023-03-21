@@ -219,6 +219,10 @@
     }
   }
 
+  .esri-editor__panel-content__scrim-container {
+    overflow: hidden;
+  }
+
   .esri-editor__settings {
     width: 100%;
     border: 0;
@@ -228,6 +232,10 @@
     .esri-feature-templates {
       width: 100%;
     }
+  }
+
+  .esri-editor__owner-admin-notice {
+    margin-bottom: $cap-spacing;
   }
 }
 

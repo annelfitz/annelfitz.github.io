@@ -154,9 +154,11 @@
     display: flex;
     flex: 0 0 auto;
     justify-content: center;
-    overflow: hidden;
     max-width: $button-width--double;
     position: relative;
+  }
+  .esri-bookmarks__bookmark-image-container--has-image {
+    overflow: hidden;
   }
 
   .esri-button-menu {
