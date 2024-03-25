@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:;base64,=" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Create a web app using components</title>
+  </head>
+  <body class="calcite-mode-dark">
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-navigation-logo slot="logo" heading="Age & Income in Los Angeles" description="" />
+      </calcite-navigation>
+      <calcite-shell-panel slot="panel-start" width-scale="s" detached collapsed>
+        <calcite-action-bar slot="action-bar">
+          <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
+          <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
+          <calcite-action data-action-id="depth" icon="altitude" text="Depth"></calcite-action>
+          <calcite-action data-action-id="time" icon="clock" text="Time"></calcite-action>
+          <calcite-action data-action-id="basemap" icon="basemap" text="Basemap"></calcite-action>
+        </calcite-action-bar>
+      </calcite-shell-panel>
+  
+      <arcgis-map item-id="08696a2de81e44cb8110d1bbabb86441">
+        <arcgis-bookmarks position="top-right"></arcgis-bookmarks>
+        <arcgis-legend position="bottom-left"></arcgis-legend>
+      </arcgis-map>
+    </calcite-shell>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
