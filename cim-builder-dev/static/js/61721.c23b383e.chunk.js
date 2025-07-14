@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkmy_app=globalThis.webpackChunkmy_app||[]).push([[61721],{61721:(i,b,u)=>{u.r(b),u.d(b,{build:()=>a.b,ribbonlineNumRoundJoinSubdivisions:()=>a.r});u(26917),u(90080),u(3838),u(56906),u(17698),u(94192),u(80883),u(42451),u(28450),u(51596),u(58350),u(23148),u(21390),u(86955),u(23687),u(2466),u(21670),u(2687);var a=u(14623)}}]);

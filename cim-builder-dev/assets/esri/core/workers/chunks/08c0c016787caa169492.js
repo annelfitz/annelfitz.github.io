@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkRemoteClient=self.webpackChunkRemoteClient||[]).push([[7091],{37091:(e,r,t)=>{t.r(r),t.d(r,{GeographicTransformation:()=>a.G,create:()=>a.b,createFromPe:()=>a.d,createFromWKT:()=>a.e});var a=t(39117);t(83661),t(55537)}}]);

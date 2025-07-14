@@ -4,20 +4,25 @@
   $tooltip-arrow-size: 8px;
 
   .esri-shadow-cast {
-    position: relative;
-    overflow: hidden;
     display: flex;
+    position: relative;
     flex-direction: column;
+    gap: var(--calcite-spacing-xxl);
+    padding: var(--esri-widget-padding);
     width: $width;
-    padding: $cap-spacing $side-spacing;
-    gap: $cap-spacing;
+    overflow: hidden;
 
     &__time-range {
       display: flex;
       flex-direction: column;
-      font-size: $font-size--tiny-time-slider;
+      font-size: var(--calcite-font-size-sm);
 
+      /* stylelint-disable-next-line order/order */
       @include timeSlider();
+
+      .esri-slider__segment-1 {
+        background: $border-color--active;
+      }
 
       .esri-slider.esri-slider--horizontal {
         padding-top: $slider-thumb-size;
@@ -26,58 +31,18 @@
 
       &__indicator {
         display: flex;
+        gap: var(--calcite-spacing-px);
+        align-items: center;
         justify-content: center;
-        align-items: center;
-        gap: $side-spacing--half;
-        margin-bottom: $cap-spacing--half;
-      }
-    }
-
-    &__tz-picker {
-      position: relative;
-      display: flex;
-      align-items: center;
-
-      &__select {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        z-index: 0;
-        font-size: $font-size--tiny;
-        font-weight: $font-weight--medium;
-        gap: $side-spacing--eighth;
-        padding: $cap-spacing--eighth $side-spacing--eighth;
-        padding-inline-start: $cap-spacing--half; // More padding at the start because at the end we already have the chevron icon
-        border: solid 1px var(--calcite-ui-border-1);
-
-        calcite-icon {
-          vertical-align: text-top;
-        }
-      }
-
-      &__hidden-select:focus ~ &__select {
-        outline: 2px solid var(--calcite-ui-brand);
-        outline-offset: -2px;
-      }
-
-      // Hidden and focusable select above the one where we display the short
-      // timezone name.
-      // TBD: should be replaced once we can use the a calcite-dropdown
-      &__hidden-select {
-        position: absolute;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        cursor: pointer;
+        margin-bottom: var(--calcite-spacing-xs);
       }
     }
 
     &__date-picker-container:not(:first-of-type) {
-      margin-top: $cap-spacing;
+      margin-top: var(--calcite-spacing-md);
     }
 
-    &__date-picker-container .esri-date-picker {
+    &__date-picker {
       display: block;
       flex-grow: 1;
     }
@@ -85,10 +50,9 @@
     &__visualization {
       display: flex;
       flex-direction: column;
-      margin-top: $cap-spacing;
 
       &__select {
-        margin-bottom: $cap-spacing;
+        margin-bottom: var(--calcite-spacing-md);
       }
 
       &__config--hidden {
@@ -99,14 +63,13 @@
     &__threshold-config,
     &__duration-config,
     &__discrete-config {
+      --calcite-label-margin-bottom: 0;
+
       display: flex;
       flex-direction: column;
-      gap: $cap-spacing;
+      gap: var(--calcite-spacing-md);
 
       calcite-label {
-        // Don't make the labels full width so that one can't click in white space to focus elements.
-        width: max-content;
-        max-width: 100%;
         display: block;
 
         // Labels shouldn't really be focusable, but we had to make the color
@@ -122,29 +85,56 @@
     }
 
     &__threshold-config {
+      /* stylelint-disable-next-line order/order */
+      @include timeSlider();
+
       .esri-slider {
-        // Fit slider content since default API slider doesn't do it for us.
-        padding-top: $slider-thumb-size;
-        padding-inline: $slider-thumb-size;
-        padding-bottom: 25px;
+        &.esri-slider--horizontal {
+          // Fit slider content since default API slider doesn't do it for us.
+          padding-top: $slider-thumb-size;
+          padding-bottom: 25px;
 
-        .esri-slider__label,
-        .esri-slider__tick-label {
-          font-size: $font-size--tiny;
+          // Move labels and ticks up to make slider more compact.
+          .esri-slider__tick-label {
+            margin-top: 12px;
+          }
+
+          // Mark slider area above the threshold
+          .esri-slider__segment-1 {
+            background: $border-color--active;
+          }
+        }
+      }
+
+      &__discrete-block {
+        --calcite-label-margin-bottom: 0;
+
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__discrete-label {
+        margin-bottom: var(--calcite-spacing-xs);
+        width: 100%;
+        font-weight: $font-weight--medium;
+
+        &--empty {
+          font-weight: inherit;
         }
 
-        // Move labels and ticks up to make slider more compact.
-        .esri-slider__tick-label {
-          margin-top: 12px;
-        }
-        .esri-slider__tick {
-          top: -4px;
+        &-text {
+          opacity: var(--calcite-opacity-disabled);
         }
 
-        // Mark slider area above the threshold
-        .esri-slider__segment-1 {
-          background: $button-color;
+        &--open &-text {
+          opacity: inherit;
         }
+      }
+
+      /* nested discrete config inside threshold config */
+      .esri-shadow-cast__discrete-config {
+        gap: var(--calcite-spacing-xs);
+        padding: 0 var(--calcite-spacing-xs);
       }
     }
 
@@ -161,42 +151,41 @@
     }
 
     &__tooltip {
-      font-size: $font-size--small;
       color: $font-color;
+      font-size: $font-size--small;
 
       &__content {
         position: absolute;
-        width: max-content;
-        padding: $cap-spacing--half $side-spacing--half;
-        background: $background-color;
 
         // center horizontally and place it above the mouse pointer
         transform: translate(-50%, -100%);
-        margin-top: -$tooltip-arrow-size - $cap-spacing--third;
+        margin-top: -$tooltip-arrow-size - var(--calcite-spacing-xxs);
+        background: $background-color;
+        padding: var(--calcite-spacing-xs) var(--calcite-spacing-sm);
+        width: max-content;
 
         // Tooltip arrow
-        &:after {
-          position: absolute;
-          content: "";
+        &::after {
           display: block;
-          width: 0;
-          height: 0;
-
-          border-top: $tooltip-arrow-size solid $background-color;
-          border-bottom: $tooltip-arrow-size solid transparent;
-          border-right: $tooltip-arrow-size solid transparent;
-          border-left: $tooltip-arrow-size solid transparent;
+          position: absolute;
 
           // Place arrow below the tooltip
           bottom: 1px; // make the arrow overlap so the "seam" isn't noticeable
           left: 50%;
           transform: translate(-50%, 100%);
+          border-top: $tooltip-arrow-size solid $background-color;
+          border-right: $tooltip-arrow-size solid transparent;
+          border-bottom: $tooltip-arrow-size solid transparent;
+          border-left: $tooltip-arrow-size solid transparent;
+          width: 0;
+          height: 0;
+          content: "";
         }
       }
     }
   }
 }
 
-@if $include_ShadowCast==true {
+@if $include_ShadowCast == true {
   @include shadowCast();
 }

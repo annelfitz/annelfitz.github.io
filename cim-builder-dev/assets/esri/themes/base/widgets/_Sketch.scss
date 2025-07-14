@@ -1,150 +1,161 @@
 @mixin sketch() {
-  $border: 1px solid $border-color;
+  .esri-component:has(> .esri-sketch) {
+    display: contents;
+  }
 
   .esri-sketch {
     display: flex;
-    flex-flow: column wrap;
+    user-select: none;
+    pointer-events: none;
 
-    .esri-snapping-controls__panel {
-      display: flex;
-      width: auto;
-    }
-  }
+    &-pad {
+      flex-flow: row wrap;
+      gap: var(--calcite-spacing-sm, 8px);
+      justify-content: flex-start;
 
-  .esri-expand__content {
-    .esri-sketch {
-      width: max-content;
-    }
-  }
+      &:dir(rtl) {
+        flex-flow: row-reverse wrap;
+      }
 
-  .esri-sketch__menu-header {
-    margin: $cap-spacing--half;
-    border-bottom: $border;
-    display: flex;
-    align-items: center;
-  }
+      &.esri-sketch--vertical {
+        flex-flow: column wrap;
+        justify-content: flex-start;
 
-  .esri-sketch__menu-title {
-    flex: 1 1 auto;
-    overflow: hidden;
-  }
+        &:dir(rtl) {
+          flex-flow: column wrap-reverse;
+        }
 
-  .esri-sketch__panel {
-    align-items: center;
-    display: flex;
-    flex-flow: row wrap;
-    padding: 0;
-  }
-
-  .esri-sketch__info-panel {
-    background-color: $background-color--offset;
-    opacity: 1;
-    transition: opacity 250ms ease-in-out;
-    &:empty {
-      opacity: 0;
-      padding: 0;
-      visibility: hidden;
-    }
-  }
-
-  .esri-sketch__menu-container {
-    background-color: $background-color;
-    display: flex;
-    flex-flow: column;
-    flex: 1 1 auto;
-    flex-direction: column;
-    margin: $cap-spacing--half;
-  }
-
-  .esri-sketch__section {
-    align-items: center;
-    display: flex;
-    flex-flow: row wrap;
-    padding: 0 $side-spacing--half;
-    margin: $cap-spacing--half 0;
-  }
-
-  .esri-sketch__tool-section {
-    border-right: $border;
-    &:last-child {
-      border-right: none;
-    }
-  }
-
-  .esri-sketch__action-toggle--on .esri-sketch__item-action-icon {
-    // Toggle on
-    background-color: $button-color;
-    box-shadow: 0 0 0 1px $button-color;
-
-    &:before {
-      background-color: $interactive-font-color--inverse;
-      left: $toggle-handle-size;
-    }
-  }
-
-  .esri-sketch__feature-count-badge {
-    align-items: center;
-    background: $background-color;
-    border-bottom: $border;
-    border-radius: $border-radius;
-    display: flex;
-    font-size: $font-size--small;
-    justify-content: center;
-    margin: 0;
-    padding: 0.25em 0.75em;
-  }
-
-  [dir="rtl"] {
-    .esri-sketch__tool-section {
-      border-left: $border;
-      border-right: none;
-
-      &:last-child {
-        border: none;
+        .esri-selection-toolbar__container {
+          flex-direction: column;
+        }
       }
     }
-    .esri-expand__content {
-      .esri-sketch--vertical {
-        .esri-sketch__tool-section {
-          border-left: none;
-          border-right: none;
+
+    > * {
+      pointer-events: initial;
+    }
+
+    &-bar {
+      flex-direction: column;
+      gap: 0;
+      margin: 0;
+      width: 100%;
+
+      &.esri-sketch--vertical {
+        flex-flow: row;
+      }
+    }
+
+    &__popover-wrapper {
+      inline-size: max-content;
+      min-inline-size: 300px;
+      max-height: 75vh;
+      max-inline-size: 400px;
+      overflow-y: auto;
+      user-select: none;
+
+      // When there are tooltip options and snapping options at the same time, we need to restore
+      // the border between them. Issue #55500
+      .esri-sketch-tooltip-controls:not(:only-child) calcite-block {
+        border-block-end-width: 1px;
+        border-style: solid;
+        border-color: var(--calcite-color-border-3);
+      }
+    }
+
+    &__selection-count-chip--horizontal {
+      align-self: center;
+      margin-block: var(--calcite-spacing-xxs);
+      margin-inline: var(--calcite-spacing-xs);
+    }
+
+    &__selection-count-chip--vertical {
+      align-self: center;
+      margin-block: calc(var(--calcite-spacing-md) * var(--sketch-chip-margin-scale-factor, 1));
+      margin-inline: 0;
+      scale: var(--sketch-chip-rescale, 1);
+
+      &--s {
+        --sketch-chip-rescale: 0.8;
+        --sketch-chip-margin-scale-factor: 0.5;
+      }
+    }
+  }
+
+  .esri-ui-top-right {
+    .esri-sketch-pad {
+      flex-flow: row-reverse wrap;
+      justify-content: flex-start;
+
+      &:dir(rtl) {
+        flex-flow: row wrap;
+      }
+
+      &.esri-sketch--vertical {
+        flex-flow: column wrap-reverse;
+
+        &:dir(rtl) {
+          flex-flow: column wrap;
         }
       }
     }
   }
 
-  .esri-sketch--vertical {
-    flex-flow: row-reverse;
+  .esri-ui-bottom-right {
+    .esri-sketch-pad {
+      flex-flow: row-reverse wrap-reverse;
 
-    .esri-sketch__panel {
-      flex-flow: column;
-    }
-    .esri-sketch__section {
-      flex-flow: column;
-      padding-left: 0;
-      padding-right: 0;
-      margin-left: $side-spacing--half;
-      margin-right: $side-spacing--half;
-    }
-    .esri-sketch__tool-section {
-      border-right: none;
-      border-bottom: $border;
-      &:last-child {
-        border-bottom: none;
+      &:dir(rtl) {
+        flex-flow: row wrap-reverse;
+      }
+
+      &.esri-sketch--vertical {
+        flex-flow: column-reverse wrap-reverse;
+
+        &:dir(rtl) {
+          flex-flow: column-reverse wrap;
+        }
       }
     }
-    .esri-sketch__info-panel {
-      &:empty {
-        padding: 0;
+  }
+
+  .esri-ui-bottom-left {
+    .esri-sketch-pad {
+      flex-flow: row wrap-reverse;
+
+      &:dir(rtl) {
+        flex-flow: row-reverse wrap-reverse;
+      }
+
+      &.esri-sketch--vertical {
+        flex-flow: column-reverse wrap;
+
+        &:dir(rtl) {
+          flex-flow: column-reverse wrap-reverse;
+        }
       }
     }
-    .esri-sketch__info-section {
-      margin-top: $cap-spacing--quarter;
-      width: $button-width;
+  }
+
+  @container esri-view-canvas (min-height: 50px) {
+    .esri-sketch__popover-wrapper {
+      max-height: calc(
+        100cqh -
+          (var(--sketch-view-height-offset, 90px)) - var(--sketch-view-margin-offset, 15px) - var(
+            --sketch-popover-header-offset,
+            1000px
+          )
+      );
     }
 
-    .esri-selection-toolbar__container {
-      flex-direction: column;
+    .esri-sketch--vertical {
+      max-height: min(100vh - 120px, 100cqh - 120px);
+    }
+  }
+
+  .esri-expand__popover-content {
+    .esri-sketch {
+      gap: 0;
     }
   }
 }

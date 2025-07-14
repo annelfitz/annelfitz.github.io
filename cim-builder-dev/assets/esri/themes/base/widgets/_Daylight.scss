@@ -1,40 +1,24 @@
 @use "sass:color";
 
 @mixin daylight() {
-  @-webkit-keyframes pulse {
-    to {
-      box-shadow: 0 0 0 12px rgba(232, 76, 61, 0);
-    }
-  }
-  @-moz-keyframes pulse {
-    to {
-      box-shadow: 0 0 0 12px rgba(232, 76, 61, 0);
-    }
-  }
-  @-ms-keyframes pulse {
-    to {
-      box-shadow: 0 0 0 12px rgba(232, 76, 61, 0);
-    }
-  }
   @keyframes pulse {
     to {
-      box-shadow: 0 0 0 12px rgba(232, 76, 61, 0);
+      box-shadow: 0 0 0 12px rgb(232 76 61 / 0%);
     }
   }
 
-  $slider-label-offset--dropdown-on: 20px;
-  $slider-label-offset--drop-down-off: 12px;
-
   .esri-daylight {
+    display: flex;
+    flex-basis: auto;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: $cap-spacing;
+    justify-content: space-between;
     padding: var(--esri-widget-padding);
     width: 350px;
 
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    flex-basis: auto;
-    justify-content: space-between;
-    gap: $cap-spacing;
+    /* stylelint-disable-next-line order/order */
+    @include timeSlider();
 
     &__anchor {
       font-size: $font-size--small;
@@ -48,46 +32,31 @@
     &__container {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
       gap: $side-spacing;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .esri-date-picker,
+    &__date-picker,
     &__season-picker {
       flex-grow: 1;
-    }
-
-    .esri-date-picker__calendar-toggle {
-      height: 32px;
-      font-size: $font-size--small;
-    }
-
-    &__container,
-    &__season-picker {
-      &--disabled {
-        opacity: $opacity--disabled;
-        pointer-events: none;
-      }
     }
 
     &__play-pause-button {
       flex: 0;
     }
 
-    @include timeSlider();
-
     .esri-slider.esri-slider--horizontal .esri-slider__thumb {
       $thumb-size: 27px;
 
-      width: $thumb-size;
-      height: $thumb-size;
-      left: -$thumb-size * 0.5;
       top: -$thumb-size * 0.5;
-      background-color: $button-color;
+      left: -$thumb-size * 0.5;
       border: 7px solid #0079c14d;
       background-clip: padding-box;
+      background-color: $button-color;
       background-position: 0 0 !important;
+      width: $thumb-size;
+      height: $thumb-size;
 
       &:hover,
       &:active,
@@ -97,23 +66,35 @@
     }
 
     .esri-slider.esri-slider--horizontal {
+      z-index: 2; // Ensure the timezone popover stays on top of the date picker (which has a z-index=1) - #60677
+
       .esri-slider-with-dropdown__box {
         display: flex;
+        gap: $cap-spacing--eighth;
         align-items: center;
-        font-size: $font-size--tiny-time-slider;
-        min-width: inherit;
-        white-space: nowrap;
+        z-index: 1;
         margin: 0;
-        margin-top: -$cap-spacing--half;
-        left: 0;
-        transform: translateX(-50%); // Center the label. We define it here so we can transition it.
-        transition: transform 0.15s ease-out;
+        margin-top: -$cap-spacing--three-quarters;
+        min-width: inherit;
+        text-align: center;
+        white-space: nowrap;
+        font-size: $font-size--tiny-time-slider;
+        will-change: left;
 
-        > .esri-slider__label {
+        .esri-slider__label {
+          display: inline-block;
+          position: static;
           inset-inline-start: auto;
           margin: 0;
-          min-width: auto;
           outline: none;
+          min-width: auto;
+          list-style: none;
+          line-height: 1em;
+          font-variant-numeric: tabular-nums;
+        }
+
+        .esri-slider__label-input {
+          display: inline-block;
         }
       }
 
@@ -123,39 +104,18 @@
       }
     }
 
-    // Aligns the slider label to the left so it doesn't overflow.
-    .esri-slider--align-left .esri-slider.esri-slider--horizontal .esri-slider-with-dropdown__box {
-      &--drop-down-off,
-      &--drop-down-on {
-        transform: translateX(-$slider-label-offset--drop-down-off);
-      }
-    }
-
-    // Aligns the slider label to the right so it doesn't overflow.
-    .esri-slider--align-right .esri-slider.esri-slider--horizontal .esri-slider-with-dropdown__box {
-      &--drop-down-on {
-        transform: translateX($slider-label-offset--dropdown-on) translateX(-100%);
-      }
-      &--drop-down-off {
-        transform: translateX($slider-label-offset--drop-down-off) translateX(-100%);
-      }
-    }
-
     .esri-slider--ampm-on .esri-slider.esri-slider--horizontal {
-      padding: 30px 8px 42px 8px;
+      padding: 30px 8px 42px;
 
       ~ .esri-daylight__play-pause-button {
         margin-bottom: 10px; // Align vertically with the slider
       }
     }
 
-    .esri-slider--shadow-on .esri-slider__thumb {
-      box-shadow: 2px 2px 5px 0px rgba(148, 148, 148, 0.63);
-    }
-
     .esri-slider.esri-slider--horizontal .esri-widget__anchor.esri-slider-with-dropdown__anchor {
-      font-size: $font-size--tiny-time-slider;
       color: $interactive-font-color;
+      font-size: $font-size--tiny-time-slider;
+
       &:hover {
         color: $interactive-font-color--hover;
       }
@@ -165,106 +125,8 @@
       --calcite-label-margin-bottom: 0;
     }
   }
-
-  [dir="rtl"] .esri-daylight {
-    .esri-slider--align-left .esri-slider.esri-slider--horizontal .esri-slider-with-dropdown__box {
-      &--drop-down-on {
-        transform: translateX(-$slider-label-offset--dropdown-on);
-      }
-      &--drop-down-off {
-        transform: translateX(-$slider-label-offset--drop-down-off);
-      }
-    }
-
-    .esri-slider--align-right .esri-slider.esri-slider--horizontal .esri-slider-with-dropdown__box {
-      &--drop-down-on,
-      &--drop-down-off {
-        transform: translateX($slider-label-offset--drop-down-off) translateX(-100%);
-      }
-    }
-  }
-}
-
-@mixin sliderWithDropdown() {
-  $timezone-dropdown-z-index: 999; // Just below the `Popover` widget
-
-  .esri-slider-with-dropdown__box {
-    text-align: center;
-
-    .esri-slider__label {
-      display: inline-block;
-      position: static;
-    }
-
-    .esri-slider__label-input {
-      display: inline-block;
-    }
-  }
-
-  .esri-slider__anchor:focus .esri-slider-with-dropdown__box.esri-slider__label {
-    outline: none !important;
-  }
-
-  .esri-slider-with-dropdown__dropdown-root {
-    display: inline-block;
-    margin-inline-start: $side-spacing--half;
-  }
-
-  .esri-slider-with-dropdown__anchor {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .esri-slider-with-dropdown__anchor--closed:after {
-    content: unicode(\25bf);
-    visibility: hidden;
-  }
-
-  .esri-slider-with-dropdown__anchor--closed:hover:after {
-    visibility: visible;
-  }
-
-  .esri-slider-with-dropdown__anchor--open:after {
-    content: unicode(\25b5);
-  }
-
-  .esri-slider-with-dropdown__list {
-    @include defaultBoxShadow();
-    display: block;
-    position: relative;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    background-color: $background-color;
-    border: 1px solid $border-color--subtle;
-    height: 350px;
-    width: 300px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    text-align: left;
-    white-space: inherit;
-    font-size: $font-size--small;
-  }
-
-  .esri-slider-with-dropdown__list-item {
-    display: flex;
-    flex-direction: column;
-    padding: $cap-spacing $side-spacing;
-    color: $font-color;
-  }
-
-  .esri-slider-with-dropdown__list-item:hover {
-    background-color: $background-color--hover;
-  }
-
-  .esri-slider-with-dropdown__list-item--selected {
-    background-color: $background-color--active;
-  }
 }
 
 @if $include_Daylight == true {
   @include daylight();
-  @include sliderWithDropdown();
 }

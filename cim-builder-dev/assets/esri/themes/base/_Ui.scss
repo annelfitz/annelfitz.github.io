@@ -1,14 +1,29 @@
-.esri-ui {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  box-sizing: border-box;
+// Avoid taking a snapshot of the root.
+:root {
+  view-transition-name: none;
+}
+
+// By default, avoid pointer events on view transition snapshots, so they don't prevent interaction.
+::view-transition {
   pointer-events: none;
+}
+
+.esri-ui {
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0;
+  z-index: 0; // creates root stacking context
   overflow: hidden;
   font-size: $font-size;
-  z-index: 0; // creates root stacking context
+  pointer-events: none;
+  container: esri-view-canvas/size;
+  contain: layout;
+
+  calcite-flow,
+  calcite-panel {
+    position: relative;
+    z-index: 1;
+  }
 
   .esri-component {
     pointer-events: auto;
@@ -17,27 +32,75 @@
   /* attribution's position is a special case */
   .esri-attribution {
     position: absolute;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
+  }
+
+  .esri-fov-overlay-outer {
+    display: grid;
+    place-content: center center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .esri-fov-overlay {
+    display: flex;
+    flex-direction: row;
+    gap: $side-spacing--half;
+    align-items: center;
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    text-shadow:
+      0 0 1px black,
+      0 0 2px black,
+      0 0 3px black;
+    color: white;
+    font-size: var(--calcite-font-size-3);
+    user-select: none;
+    pointer-events: none;
+
+    &-reset {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    &-text {
+      pointer-events: none;
+    }
+  }
+
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .esri-fov-overlay {
+    animation: none !important;
   }
 }
 
 .esri-ui-corner {
-  position: absolute;
   display: flex;
+  position: absolute;
 }
 
 .esri-ui-inner-container {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  inset: 0;
 }
 
 .esri-ui-manual-container {
-  & > .esri-component {
+  > .esri-component {
     position: absolute;
   }
 
@@ -54,10 +117,14 @@
 }
 
 .esri-ui-top-left {
+  top: 0;
+  left: 0;
   align-items: flex-start;
 }
 
 .esri-ui-top-right {
+  top: 0;
+  right: 0;
   align-items: flex-end;
 }
 
@@ -69,17 +136,13 @@
 }
 
 .esri-ui-bottom-right {
-  flex-flow: row-reverse;
-}
-
-.esri-ui-top-left {
-  top: 0;
-  left: 0;
-}
-
-.esri-ui-top-right {
-  top: 0;
   right: 0;
+  bottom: 0;
+  flex-flow: row-reverse;
+
+  .esri-component {
+    margin-left: $view-ui-spacing;
+  }
 }
 
 .esri-ui-top-right .esri-component,
@@ -96,25 +159,19 @@
   }
 }
 
-.esri-ui-bottom-right {
-  bottom: 0;
-  right: 0;
-
-  .esri-component {
-    margin-left: $view-ui-spacing;
-  }
-}
-
 [dir="rtl"] {
   .esri-ui-top-left {
     align-items: flex-end;
   }
+
   .esri-ui-top-right {
     align-items: flex-start;
   }
+
   .esri-ui-bottom-left {
     flex-direction: row-reverse;
   }
+
   .esri-ui-bottom-right {
     flex-direction: row;
   }
@@ -124,21 +181,21 @@
 
 .esri-zoom-box__container {
   position: relative;
-  height: 100%;
   width: 100%;
+  height: 100%;
 }
 
 .esri-zoom-box__overlay {
-  cursor: crosshair;
-  width: 100%;
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  cursor: crosshair;
+  width: 100%;
+  height: 100%;
 }
 
 .esri-zoom-box__overlay-background {
-  fill: rgba(0, 0, 0, 0.1);
+  fill: rgb(0 0 0 / 10%);
 }
 
 .esri-zoom-box__outline {
