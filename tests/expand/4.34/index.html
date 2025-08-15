@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <!--
+     ArcGIS Maps SDK for JavaScript, https://js.arcgis.com
+     For more information about the editor-basic sample,
+     read the original sample description at developers.arcgis.com.
+     https://developers.arcgis.com/javascript/latest/sample-code/editor-basic/
+     -->
+    <title>
+      Edit features with the Editor component | Sample | ArcGIS Maps SDK for
+      JavaScript
+    </title>
+
+    <!-- Load Calcite components from CDN -->
+    <script
+      type="module"
+      src="https://jsdev.arcgis.com/calcite-components/3.2.1/calcite.esm.js"
+    ></script>
+
+    <!-- Load the ArcGIS Maps SDK for JavaScript -->
+    <script src="https://jsdev.arcgis.com/4.34/"></script>
+
+    <!-- Load Map components from CDN-->
+    <script
+      type="module"
+      src="https://jsdev.arcgis.com/4.34/map-components/"
+    ></script>
+
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <arcgis-map item-id="4793230052ed498ebf1c7bed9966bd35">
+      <arcgis-expand slot="top-right">
+        <arcgis-editor></arcgis-editor>
+      </arcgis-expand>
+    </arcgis-map>
+  </body>
+</html>
