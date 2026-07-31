@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>
+      Search component with multiple sources | Sample | ArcGIS Maps SDK for
+      JavaScript
+    </title>
+
+    <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+    <script type="module" src="https://jsdev.arcgis.com/5.0/"></script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <arcgis-map item-id="da8d166a4cf1412a8372452bdec22a06">
+      <arcgis-zoom slot="top-left"></arcgis-zoom>
+      <arcgis-expand slot="top-right">
+        <arcgis-search
+          all-placeholder="District or Senator"
+          include-default-sources-disabled
+        ></arcgis-search>
+      </arcgis-expand>
+    </arcgis-map>
+    <script type="module">
+      const FeatureLayer = await $arcgis.import(
+        "@arcgis/core/layers/FeatureLayer.js",
+      );
+
+      const featureLayerDistricts = new FeatureLayer({
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_117th_Congressional_Districts_all/FeatureServer/0",
+        popupTemplate: {
+          // autocasts as new PopupTemplate()
+          title: "Congressional District {DISTRICTID} </br>{NAME}, ({PARTY})",
+          overwriteActions: true,
+        },
+      });
+
+      const featureLayerSenators = new FeatureLayer({
+        url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_Senators_2020/FeatureServer/0",
+        popupTemplate: {
+          // autocasts as new PopupTemplate()
+          title:
+            "<a href={Web_Page} target='_blank'> {Name}</a>, ({Party}-{State}) ",
+          overwriteActions: true,
+        },
+      });
+
+      const search = document.querySelector("arcgis-search");
+      await search.componentOnReady();
+      // set the search sources once the component is ready
+      search.sources = [
+        {
+          layer: featureLayerDistricts,
+          searchFields: ["DISTRICTID"],
+          displayField: "DISTRICTID",
+          exactMatch: false,
+          outFields: ["DISTRICTID", "NAME", "PARTY"],
+          name: "Congressional Districts",
+          placeholder: "example: 3708",
+        },
+        {
+          layer: featureLayerSenators,
+          searchFields: ["Name", "Party"],
+          suggestionTemplate: "{Name}, Party: {Party}",
+          exactMatch: false,
+          outFields: ["*"],
+          placeholder: "example: Casey",
+          name: "Senators",
+          zoomScale: 500000,
+          resultSymbol: {
+            type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+            url: "https://next.gha.afd.arcgis.com/javascript/latest/assets/sample-code/search-component-multisource/images/senate.avif",
+            height: 36,
+            width: 36,
+          },
+        },
+        {
+          name: "ArcGIS World Geocoding Service",
+          placeholder: "example: Nuuk, GRL",
+          singleLineFieldName: "SingleLine",
+          apiKey: "YOUR_ACCESS_TOKEN",
+          url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+        },
+      ];
+    </script>
+  </body>
+</html>
