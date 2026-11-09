@@ -1,1 +1,0 @@
-import{t as e}from"./workers-DjRSKMlg.js";var t,n=!1,r;function i(){return t??=e(`arcadeGeometryOperatorsWorker`).then(e=>{r=e,n=!0,t=void 0})}async function a(e,t){return n?r.apply(`invokeGeometryOp`,[e,t]):(await i(),a(e,t))}export{a as t};

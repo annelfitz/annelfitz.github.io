@@ -1,1 +1,0 @@
-import{d as e,n as t,t as n}from"./Error-BHEe1KT4.js";import{L as r}from"./request-BAWTIDq1.js";function i(i){if(!e.assetsPath)throw t.getLogger(`esri.assets`).errorOnce(`The API assets location needs to be set using config.assetsPath. More information: https://arcg.is/1OzLe50`),new n(`assets:path-not-set`,`config.assetsPath is not set`);return r(e.assetsPath,i)}export{i as t};
