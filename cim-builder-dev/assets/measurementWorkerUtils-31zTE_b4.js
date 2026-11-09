@@ -1,0 +1,1 @@
+import{_ as e,n as t}from"./spatialReferenceUtils-DRh39q-7.js";function n(n){return e(n)||t(n)?0:1}export{n as t};
